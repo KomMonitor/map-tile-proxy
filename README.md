@@ -139,6 +139,39 @@ backend services there.
 The `Dockerfile` builds a `node:22-alpine` image with `npm ci --omit=dev`, runs as the unprivileged
 `node` user, and defines a `HEALTHCHECK` that hits `/healthz`.
 
+## Releasing
+
+Releases are cut with [release-it](https://github.com/release-it/release-it) (configured in
+[`.release-it.json`](./.release-it.json)), the same way as the other KomMonitor repositories.
+It needs Node.js 22.22 or newer, a clean working tree, the `master` branch checked out and push
+access to `origin`.
+
+```bash
+npm run release            # interactive: pick the bump (patch/minor/major/pre-release)
+npm run release -- 1.2.0   # or name the version explicitly
+npm run release -- --dry-run   # show what would happen, change nothing
+```
+
+What it does, in order:
+
+1. runs `npm test` and aborts if anything fails
+2. bumps `version` in `package.json` and `package-lock.json`
+3. regenerates `CHANGELOG.md` from the git history with `auto-changelog`
+4. creates the commit `Release X.Y.Z` and the tag `X.Y.Z` (no `v` prefix), and pushes both
+
+Pushing triggers the GitHub workflows: the push to `master` rebuilds `kommonitor/map-tile-proxy:latest`
+and syncs `README_DOCKERHUB.md` to Docker Hub, and the `X.Y.Z` tag builds the versioned images
+`kommonitor/map-tile-proxy:X.Y.Z` and `:X.Y`.
+
+Notes:
+
+- `package.json` is `private`, and npm publishing and GitHub Releases are disabled; a release is
+  the git tag plus the Docker images.
+- The very first release can be `1.0.0` (the current `package.json` version); this is why
+  same-version bumps are allowed.
+- `CHANGELOG.md` must stay tracked in git, otherwise release-it will not include it in the release commit.
+- Commit subjects become changelog entries, so write them as short sentences.
+
 ## Client integration
 
 ### Leaflet

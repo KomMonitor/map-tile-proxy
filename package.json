@@ -4,13 +4,19 @@
   "description": "Lightweight HTTP proxy for XYZ raster map tiles that obscures upstream API keys",
   "type": "module",
   "license": "Apache-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KomMonitor/map-tile-proxy.git"
+  },
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "release": "release-it"
   },
   "engines": {
     "node": ">=18"
@@ -23,6 +29,11 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^5.0.0",
+    "auto-changelog": "^2.7.0",
+    "release-it": "^21.1.1",
     "vitest": "^5.0.0"
+  },
+  "overrides": {
+    "basic-ftp": "^6.2.2"
   }
 }

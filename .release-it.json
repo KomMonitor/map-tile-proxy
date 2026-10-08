@@ -1,0 +1,18 @@
+{
+  "git": {
+    "requireBranch": "master",
+    "commitMessage": "Release ${version}",
+    "tagName": "${version}"
+  },
+  "npm": {
+    "publish": false,
+    "allowSameVersion": true
+  },
+  "github": {
+    "release": false
+  },
+  "hooks": {
+    "before:init": "npm test",
+    "after:bump": "npx auto-changelog -p"
+  }
+}
