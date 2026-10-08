@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Lightweight HTTP proxy for XYZ raster map tiles that obscures upstream API keys",
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
