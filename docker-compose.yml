@@ -1,0 +1,38 @@
+services:
+  kommonitor-map-tile-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kommonitor/map-tile-proxy:1.0.0
+    container_name: kommonitor-map-tile-proxy
+    restart: unless-stopped
+    env_file:
+      - ./map-tile-proxy.env
+    environment:
+      KOMMONITOR_NAME: map-tile-proxy
+      CONFIG_PATH: /app/config/config.json
+      # Log level: fatal|error|warn|info|debug|trace|silent. Set per run with
+      #   LOG_LEVEL=debug docker compose up
+      # When unset (empty) the service falls back to "logLevel" in config.json, then "info".
+      # Keep LOG_LEVEL out of map-tile-proxy.env: this entry would override it with an empty value.
+      LOG_LEVEL: ${LOG_LEVEL:-}
+      # Set to "true" to print unmasked API keys in debug logs (off by default).
+      LOG_REVEAL_API_KEYS: ${LOG_REVEAL_API_KEYS:-}
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the operator-provided config (with real upstream API keys) read-only.
+      # Copy config.example.json to ./config/config.json and fill in real credentials.
+      - ./config/config.json:/app/config/config.json:ro
+    networks:
+      - kommonitor
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/healthz').then(r=>{if(r.status!==200)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  kommonitor:
+    name: kommonitor
+    driver: bridge

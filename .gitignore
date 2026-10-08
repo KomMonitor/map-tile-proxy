@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+.claude/
+
+# map-tile-proxy: real config/credentials, never commit these
+config.json
+map-tile-proxy.env
+coverage/

@@ -1,0 +1,36 @@
+{
+  "port": 8080,
+  "requestTimeoutMs": 5000,
+  "fallbackOnError": true,
+  "logLevel": "info",
+  "allowedOrigins": [
+    "https://*.kommonitor.de",
+    "http://localhost:*"
+  ],
+  "allowedUpstreamHosts": [
+    "*.example-provider.com",
+    "api.example-satellite.com"
+  ],
+  "services": {
+    "osm-bright": {
+      "description": "Example raster basemap authenticated via a query-string API key",
+      "upstreamUrlTemplate": "https://tiles.example-provider.com/styles/osm-bright/{z}/{x}/{y}.png",
+      "apiKeyParamName": "api_key",
+      "apiKeyValue": "REPLACE_WITH_YOUR_API_KEY",
+      "allowedExtensions": ["png"],
+      "timeoutMs": 5000,
+      "fallbackOnError": true
+    },
+    "satellite-basemap": {
+      "description": "Example raster basemap authenticated via custom headers (bearer token + API key header)",
+      "upstreamUrlTemplate": "https://api.example-satellite.com/tiles/{z}/{x}/{y}.jpg",
+      "headers": {
+        "Authorization": "Bearer REPLACE_WITH_YOUR_TOKEN",
+        "X-Api-Key": "REPLACE_WITH_YOUR_API_KEY"
+      },
+      "allowedExtensions": ["jpg", "jpeg"],
+      "timeoutMs": 6000,
+      "fallbackOnError": true
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@kommonitor/map-tile-proxy",
+  "version": "1.0.0",
+  "description": "Lightweight HTTP proxy for XYZ raster map tiles that obscures upstream API keys",
+  "type": "module",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "fastify": "^5.12.5",
+    "prom-client": "^15.1.3",
+    "undici": "^6.19.8"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.0",
+    "vitest": "^5.0.0"
+  }
+}
